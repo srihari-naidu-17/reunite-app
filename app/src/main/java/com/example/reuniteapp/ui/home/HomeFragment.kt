@@ -4,70 +4,46 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.reuniteapp.databinding.FragmentHomeBinding
+import androidx.appcompat.widget.SearchView
+import com.example.reuniteapp.R  // Replace with your actual package name
 
 class HomeFragment : Fragment() {
 
-    private var _binding: FragmentHomeBinding? = null
-    private val binding get() = _binding!!
-    private lateinit var searchAdapter: SearchAdapter
-    private lateinit var homeViewModel: HomeViewModel
+    private lateinit var searchView: SearchView
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+    ): View? {
+        // Inflate the layout for this fragment
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
 
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        // Initialize search view
+        searchView = view.findViewById(R.id.searchView)
 
-        searchAdapter = SearchAdapter(listOf())
-        binding.searchResults.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = searchAdapter
-        }
-
-        binding.searchBox.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        // Set up search view listeners
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                query?.let {
-                    performSearch(it)
-                }
-                return false
+                // Handle search query submission
+                return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                newText?.let {
-                    performSearch(it)
-                }
-                return false
+                // Handle search query text change
+                return true
             }
         })
 
-        return root
-    }
+        // Set up Lost Item Card
+        val lostItemCard = view.findViewById<View>(R.id.lostItemCard)
+        // Add click or other listeners to interact with this card
 
-    private fun performSearch(query: String) {
-        // Perform your search logic here, update the adapter with results
-        val results = searchItems(query)
-        searchAdapter.updateResults(results)
-    }
+        // Set up Found Item Card
+        val foundItemCard = view.findViewById<View>(R.id.foundItemCard)
+        // Add click or other listeners to interact with this card
 
-    private fun searchItems(query: String): List<String> {
-        // Dummy search logic, replace with actual search logic
-        return listOf("Result 1", "Result 2", "Result 3").filter {
-            it.contains(query, ignoreCase = true)
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        return view
     }
 }
