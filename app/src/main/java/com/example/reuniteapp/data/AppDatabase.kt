@@ -4,10 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.reuniteapp.models.UserProfile
 
-@Database(entities = [UserProfile::class], version = 1)
+@Database(entities = [UserProfile::class], version = 2, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
+
     abstract fun userProfileDao(): UserProfileDao
 
     companion object {
@@ -19,10 +22,20 @@ abstract class AppDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "reunite_app_database"
-                ).build()
+                    "app_database"
+                )
+                    .addMigrations(MIGRATION_1_2) // Add migration from version 1 to version 2
+                    .build()
                 INSTANCE = instance
                 instance
+            }
+        }
+
+        // Define your migration from version 1 to version 2
+        private val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                // Migration strategy: For example, adding a new column
+                database.execSQL("ALTER TABLE user_profiles ADD COLUMN profilePic TEXT DEFAULT '' NOT NULL")
             }
         }
     }
