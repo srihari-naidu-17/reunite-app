@@ -1,5 +1,6 @@
 package com.example.reuniteapp.ui
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -52,6 +53,7 @@ class LoginActivity : AppCompatActivity() {
 
                 if (userProfile != null && userProfile.password == password) {
                     saveLoginStatus(true, userProfile.id)
+                    saveUserIdToSharedPreferences(userProfile.id)
 
                     val intent = Intent(this@LoginActivity, MainActivity::class.java)
                     startActivity(intent)
@@ -76,5 +78,13 @@ class LoginActivity : AppCompatActivity() {
             apply()
         }
         Log.d("LoginActivity", "Saved login status to SharedPreferences: isLoggedIn=$isLoggedIn, userId=$userId")
+    }
+    private fun saveUserIdToSharedPreferences(userId: Int) {
+        val sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        with(sharedPreferences.edit()) {
+            putInt("USER_ID", userId)
+            apply()
+        }
+        Log.d("LoginActivity", "Saved user ID to SharedPreferences: $userId")
     }
 }
