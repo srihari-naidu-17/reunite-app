@@ -1,7 +1,9 @@
 package com.example.reuniteapp.ui
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -47,9 +49,8 @@ class RegisterActivity : AppCompatActivity() {
             val username = etUsername.text.toString()
             val password = etPassword.text.toString()
 
-            // Input validation
             if (name.isEmpty() || email.isEmpty() || contactNumber.isEmpty() || username.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this@RegisterActivity, "All fields are required", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -64,23 +65,31 @@ class RegisterActivity : AppCompatActivity() {
 
             lifecycleScope.launch {
                 try {
-                    userProfileDao.insert(userProfile)
+                    val userIdLong = userProfileDao.insert(userProfile)
+                    val userId = userIdLong.toInt()
 
-                    val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this@RegisterActivity)
-                    with(sharedPreferences.edit()) {
-                        putBoolean("isLoggedIn", true)
-                        apply()
-                    }
+                    // Save user ID to SharedPreferences
+                    saveUserIdToSharedPreferences(userId)
+
+                    Toast.makeText(this@RegisterActivity, "Registration successful", Toast.LENGTH_SHORT).show()
 
                     val intent = Intent(this@RegisterActivity, MainActivity::class.java)
                     startActivity(intent)
                     finish()
-
                 } catch (e: Exception) {
                     Toast.makeText(this@RegisterActivity, "Failed to register user", Toast.LENGTH_SHORT).show()
-                    // Handle any errors here
+                    Log.e("RegisterActivity", "Error registering user", e)
                 }
             }
         }
+    }
+
+    private fun saveUserIdToSharedPreferences(userId: Int) {
+        val sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        with(sharedPreferences.edit()) {
+            putInt("USER_ID", userId)
+            apply()
+        }
+        Log.d("RegisterActivity", "Saved user ID to SharedPreferences: $userId")
     }
 }

@@ -6,9 +6,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.reuniteapp.models.UserProfile
 
-@Database(entities = [UserProfile::class], version = 2, exportSchema = false)
+@Database(entities = [UserProfile::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
-
     abstract fun userProfileDao(): UserProfileDao
 
     companion object {
@@ -21,9 +20,7 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "reunite_app_database"
-                )
-                .fallbackToDestructiveMigration() // Add this line to handle migrations
-                .build()
+                ).build()
                 INSTANCE = instance
                 instance
             }

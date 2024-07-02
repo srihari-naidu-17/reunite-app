@@ -3,12 +3,12 @@ package com.example.reuniteapp.ui.profile
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.reuniteapp.R
@@ -17,7 +17,6 @@ import com.example.reuniteapp.data.UserProfileDao
 import com.example.reuniteapp.databinding.FragmentProfileBinding
 import com.example.reuniteapp.models.UserProfile
 import kotlinx.coroutines.launch
-import java.io.OutputStream
 
 class ProfileFragment : Fragment() {
 
@@ -34,22 +33,47 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        userProfileDao = AppDatabase.getDatabase(requireContext()).userProfileDao()
+        val userId = getUserIdFromSharedPreferences()
+        Log.d("com.example.reuniteapp.ui.profile.ProfileFragment", "User ID from SharedPreferences: $userId")
 
+        // Initialize userProfileDao
+        val database = AppDatabase.getDatabase(requireContext())
+        userProfileDao = database.userProfileDao()
+        Log.d("com.example.reuniteapp.ui.profile.ProfileFragment", "userProfileDao initialized")
+
+        loadUserProfile()
+
+        binding.editProfileButton.setOnClickListener {
+            // TODO: Implement navigation to edit profile screen
+            Toast.makeText(requireContext(), "Edit Profile clicked", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun loadUserProfile() {
         viewLifecycleOwner.lifecycleScope.launch {
-            // Assume we have the current user's ID stored in SharedPreferences
-            val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
-            val userId = sharedPref.getInt("USER_ID", -1)
+            val userId = getUserIdFromSharedPreferences()
+            Log.d("com.example.reuniteapp.ui.profile.ProfileFragment", "User ID from SharedPreferences: $userId")
+
             if (userId != -1) {
-                val userProfile = userProfileDao.getUserProfileById(userId)
-                userProfile?.let { updateUI(it) }
+                try {
+                    val userProfile = userProfileDao.getUserProfileById(userId)
+                    if (userProfile != null) {
+                        updateUI(userProfile)
+                        Log.d("com.example.reuniteapp.ui.profile.ProfileFragment", "User profile loaded successfully")
+                    } else {
+                        Log.e("com.example.reuniteapp.ui.profile.ProfileFragment", "User profile not found for ID: $userId")
+                        Toast.makeText(requireContext(), "User profile not found", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: Exception) {
+                    Log.e("com.example.reuniteapp.ui.profile.ProfileFragment", "Error retrieving user profile", e)
+                    Toast.makeText(requireContext(), "Failed to load user profile", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Log.e("com.example.reuniteapp.ui.profile.ProfileFragment", "User ID not found in SharedPreferences")
+                Toast.makeText(requireContext(), "Please log in to view your profile", Toast.LENGTH_LONG).show()
+                // TODO: Navigate to login screen if not logged in
             }
         }
-
-//        binding.editProfileButton.setOnClickListener {
-//            // Navigate to edit profile screen
-//            // You'll need to implement this navigation
-//        }
     }
 
     private fun updateUI(userProfile: UserProfile) {
@@ -57,7 +81,7 @@ class ProfileFragment : Fragment() {
         binding.emailTextView.text = userProfile.email
         binding.contactNumberTextView.text = userProfile.contactNumber
 
-        // Load profile image
+        // Load profile image if available
         val profileImage = loadProfileImage(requireContext(), userProfile)
         if (profileImage != null) {
             binding.profileImage.setImageBitmap(profileImage)
@@ -68,31 +92,21 @@ class ProfileFragment : Fragment() {
 
     private fun loadProfileImage(context: Context, userProfile: UserProfile): Bitmap? {
         return try {
-            val imageFile = context.getFileStreamPath(userProfile.profileImageUri)
-            BitmapFactory.decodeFile(imageFile.absolutePath)
+            if (userProfile.profileImageUri.isNotEmpty()) {
+                val imageFile = context.getFileStreamPath(userProfile.profileImageUri)
+                BitmapFactory.decodeFile(imageFile.absolutePath)
+            } else {
+                null
+            }
         } catch (e: Exception) {
-            e.printStackTrace()
+            Log.e("com.example.reuniteapp.ui.profile.ProfileFragment", "Error loading profile image", e)
             null
         }
     }
 
-    fun saveProfileImage(context: Context, imageUri: Uri, userProfile: UserProfile) {
-        val fileName = "profile_${userProfile.id}.jpg"
-        val outputStream: OutputStream
-        try {
-            outputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE)
-            val bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, imageUri)
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
-            outputStream.close()
-
-            // Update the user profile with the new image URI
-            userProfile.profileImageUri = fileName
-            viewLifecycleOwner.lifecycleScope.launch {
-                userProfileDao.updateUserProfile(userProfile)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+    private fun getUserIdFromSharedPreferences(): Int {
+        val sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        return sharedPreferences.getInt("USER_ID", -1)
     }
 
     override fun onDestroyView() {

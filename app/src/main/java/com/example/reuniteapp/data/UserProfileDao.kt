@@ -6,7 +6,7 @@ import com.example.reuniteapp.models.UserProfile
 @Dao
 interface UserProfileDao {
     @Insert
-    suspend fun insert(userProfile: UserProfile)
+    suspend fun insert(userProfile: UserProfile) : Long
 
     @Query("SELECT * FROM user_profiles WHERE email = :email")
     suspend fun getUserProfileByEmail(email: String): UserProfile?
