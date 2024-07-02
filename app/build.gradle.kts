@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.preference.ktx)
     implementation ("androidx.cardview:cardview:1.0.0")
+    implementation(libs.androidx.activity)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
