@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.profile.ProfileFragment">
 
+    <!-- Profile details card view -->
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -23,6 +24,7 @@
             android:layout_height="wrap_content"
             android:padding="16dp">
 
+            <!-- Profile Image -->
             <ImageView
                 android:id="@+id/profileImage"
                 android:layout_width="120dp"
@@ -33,6 +35,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@tools:sample/avatars" />
 
+            <!-- Name TextView -->
             <TextView
                 android:id="@+id/nameTextView"
                 android:layout_width="wrap_content"
@@ -45,6 +48,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/profileImage"
                 tools:text="John Doe" />
 
+            <!-- Email TextView -->
             <TextView
                 android:id="@+id/emailTextView"
                 android:layout_width="wrap_content"
@@ -55,6 +59,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/nameTextView"
                 tools:text="johndoe@example.com" />
 
+            <!-- Contact Number TextView -->
             <TextView
                 android:id="@+id/contactNumberTextView"
                 android:layout_width="wrap_content"
@@ -65,6 +70,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/emailTextView"
                 tools:text="+1 234 567 8900" />
 
+            <!-- Edit Profile Button -->
             <Button
                 android:id="@+id/editProfileButton"
                 android:layout_width="wrap_content"
@@ -74,6 +80,17 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/contactNumberTextView" />
+
+            <!-- Logout Button -->
+            <Button
+                android:id="@+id/logoutButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Logout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editProfileButton" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

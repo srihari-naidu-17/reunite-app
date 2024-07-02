@@ -1,6 +1,7 @@
 package com.example.reuniteapp.ui.profile
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -16,6 +17,7 @@ import com.example.reuniteapp.data.AppDatabase
 import com.example.reuniteapp.data.UserProfileDao
 import com.example.reuniteapp.databinding.FragmentProfileBinding
 import com.example.reuniteapp.models.UserProfile
+import com.example.reuniteapp.ui.LoginActivity
 import kotlinx.coroutines.launch
 
 class ProfileFragment : Fragment() {
@@ -47,6 +49,23 @@ class ProfileFragment : Fragment() {
             // TODO: Implement navigation to edit profile screen
             Toast.makeText(requireContext(), "Edit Profile clicked", Toast.LENGTH_SHORT).show()
         }
+
+        binding.logoutButton.setOnClickListener {
+            logoutUser()
+        }
+    }
+
+    private fun logoutUser() {
+        // Clear user session or preferences
+        val sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.clear()
+        editor.apply()
+
+        // Navigate back to login screen
+        val intent = Intent(requireContext(), LoginActivity::class.java)
+        startActivity(intent)
+        requireActivity().finish()
     }
 
     private fun loadUserProfile() {
