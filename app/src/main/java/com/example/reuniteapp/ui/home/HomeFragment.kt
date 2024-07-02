@@ -1,16 +1,22 @@
 package com.example.reuniteapp.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
+import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
-import androidx.appcompat.widget.SearchView
-import com.example.reuniteapp.R  // Replace with your actual package name
+import com.example.reuniteapp.R
+import com.example.reuniteapp.ui.report.ReportItemActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class HomeFragment : Fragment() {
 
     private lateinit var searchView: SearchView
+    private lateinit var addLostitemFab: FloatingActionButton
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,14 +42,43 @@ class HomeFragment : Fragment() {
             }
         })
 
-        // Set up Lost Item Card
-        val lostItemCard = view.findViewById<View>(R.id.lostItemCard)
-        // Add click or other listeners to interact with this card
+        // Initialize Floating Action Button
+        val addLostItemButton: FloatingActionButton = view.findViewById(R.id.addLostItemButton)
 
-        // Set up Found Item Card
-        val foundItemCard = view.findViewById<View>(R.id.foundItemCard)
-        // Add click or other listeners to interact with this card
+        // Set up click listener for FAB
+        addLostItemButton.setOnClickListener {
+            showPopupMenu(addLostItemButton)
+        }
 
         return view
+    }
+
+    private fun showPopupMenu(view: View) {
+        val popup = PopupMenu(requireContext(), view)
+        popup.menuInflater.inflate(R.menu.popup_menu, popup.menu)
+
+        popup.setOnMenuItemClickListener { item: MenuItem ->
+            when (item.itemId) {
+                R.id.menu_report_lost_item -> {
+                    // Handle report lost item
+                    navigateToReportItem("lost")
+                    true
+                }
+                R.id.menu_report_found_item -> {
+                    // Handle report found item
+                    navigateToReportItem("found")
+                    true
+                }
+                else -> false
+            }
+        }
+
+        popup.show()
+    }
+
+    private fun navigateToReportItem(itemType: String) {
+        val intent = Intent(requireContext(), ReportItemActivity::class.java)
+        intent.putExtra("itemType", itemType)
+        startActivity(intent)
     }
 }
