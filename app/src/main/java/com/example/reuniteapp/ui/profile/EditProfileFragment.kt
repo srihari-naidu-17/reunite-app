@@ -20,8 +20,13 @@ import com.example.reuniteapp.models.UserProfile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.viewModels
+import java.io.File
 
 class EditProfileFragment : Fragment() {
+
+    private val userProfileViewModel: UserProfileViewModel by viewModels()
 
     private var _binding: FragmentEditProfileBinding? = null
     private val binding get() = _binding!!
@@ -50,7 +55,9 @@ class EditProfileFragment : Fragment() {
 
         // Set click listeners
         binding.saveButton.setOnClickListener {
-            saveUserProfile()
+            viewLifecycleOwner.lifecycleScope.launch {
+                saveUserProfile()
+            }
         }
 
         binding.cancelButton.setOnClickListener {
@@ -65,25 +72,21 @@ class EditProfileFragment : Fragment() {
 
     private fun loadUserProfile() {
         viewLifecycleOwner.lifecycleScope.launch {
-            currentUserId = getUserIdFromSharedPreferences()
-            if (currentUserId != -1) {
-                try {
-                    val userProfile = userProfileDao.getUserProfileById(currentUserId)
-                    if (userProfile != null) {
+            val userId = getUserIdFromSharedPreferences()
+            if (userId != -1) {
+                userProfileViewModel.getUserProfileById(userId,
+                    onSuccess = { userProfile ->
                         updateUI(userProfile)
                         Log.d(TAG, "User profile loaded successfully")
-                    } else {
-                        Log.e(TAG, "User profile not found for ID: $currentUserId")
-                        Toast.makeText(requireContext(), "User profile not found", Toast.LENGTH_SHORT).show()
+                    },
+                    onError = { e ->
+                        Log.e(TAG, "Error loading user profile", e)
+                        Toast.makeText(requireContext(), "Failed to load user profile", Toast.LENGTH_SHORT).show()
                     }
-                } catch (e: Exception) {
-                    Log.e(TAG, "Error retrieving user profile", e)
-                    Toast.makeText(requireContext(), "Failed to load user profile", Toast.LENGTH_SHORT).show()
-                }
+                )
             } else {
                 Log.e(TAG, "User ID not found in SharedPreferences")
-                Toast.makeText(requireContext(), "Please log in to view your profile", Toast.LENGTH_LONG).show()
-                // TODO: Navigate to login screen if not logged in
+                Toast.makeText(requireContext(), "Please log in to edit your profile", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -93,8 +96,13 @@ class EditProfileFragment : Fragment() {
         binding.emailEditText.setText(userProfile.email)
         binding.contactEditText.setText(userProfile.contactNumber)
 
-        // Load profile image if available
-        loadProfileImage(userProfile.profileImageUri)
+        // Load and display the profile image
+        val profileImage = loadProfileImage(userProfile.profileImageUri)
+        if (profileImage != null) {
+            binding.profileImageView.setImageBitmap(profileImage)
+        } else {
+            binding.profileImageView.setImageResource(R.drawable.default_profile_image)
+        }
     }
 
     private fun saveUserProfile() {
@@ -104,33 +112,45 @@ class EditProfileFragment : Fragment() {
         val userId = getUserIdFromSharedPreferences()
 
         viewLifecycleOwner.lifecycleScope.launch {
-            try {
-                if (userId != -1) {
-                    // Load current user profile
-                    val userProfile = userProfileDao.getUserProfileById(userId)
-                    if (userProfile != null) {
-                        // Update the fields
-                        userProfile.name = name
-                        userProfile.email = email
-                        userProfile.contactNumber = contactNumber
-
-                        // Save updated profile
-                        userProfileDao.updateUserProfile(userProfile)
-                        Toast.makeText(requireContext(), "Profile updated successfully", Toast.LENGTH_SHORT).show()
-                        // TODO: Navigate back to profile fragment or handle navigation as needed
-                    } else {
-                        Log.e(TAG, "User profile not found for ID: $userId")
-                        Toast.makeText(requireContext(), "User profile not found", Toast.LENGTH_SHORT).show()
+            userProfileViewModel.getUserProfileById(userId,
+                onSuccess = { userProfile ->
+                    userProfile.apply {
+                        this.name = name
+                        this.email = email
+                        this.contactNumber = contactNumber
+                        val newImageUri = saveProfileImageToInternalStorage()
+                        if (newImageUri.isNotEmpty()) {
+                            this.profileImageUri = newImageUri
+                        }
                     }
-                } else {
-                    Log.e(TAG, "User ID not found in SharedPreferences")
-                    Toast.makeText(requireContext(), "Failed to update user profile: User ID not found", Toast.LENGTH_SHORT).show()
+
+                    userProfileViewModel.updateUserProfile(userProfile,
+                        onSuccess = {
+                            Toast.makeText(requireContext(), "Profile updated successfully", Toast.LENGTH_SHORT).show()
+                            requireActivity().supportFragmentManager.popBackStack()
+                        },
+                        onError = { e ->
+                            Toast.makeText(requireContext(), "Failed to update profile: ${e.message}", Toast.LENGTH_SHORT).show()
+                        }
+                    )
+                },
+                onError = { e ->
+                    Log.e(TAG, "Error retrieving user profile", e)
+                    Toast.makeText(requireContext(), "Failed to load user profile", Toast.LENGTH_SHORT).show()
                 }
-            } catch (e: Exception) {
-                Log.e(TAG, "Error updating user profile", e)
-                Toast.makeText(requireContext(), "Failed to update user profile: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
+            )
         }
+    }
+
+    private fun saveProfileImageToInternalStorage(): String {
+        profilePicBitmap?.let { bitmap ->
+            val fileName = "profile_pic_${System.currentTimeMillis()}.jpg"
+            requireContext().openFileOutput(fileName, Context.MODE_PRIVATE).use { fos ->
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fos)
+            }
+            return fileName
+        }
+        return ""
     }
 
     private fun getUserIdFromSharedPreferences(): Int {
@@ -143,17 +163,17 @@ class EditProfileFragment : Fragment() {
         _binding = null
     }
 
-    private fun loadProfileImage(imageUri: String) {
-        viewLifecycleOwner.lifecycleScope.launch {
+    private fun loadProfileImage(imageUri: String): Bitmap? {
+        return try {
             if (imageUri.isNotEmpty()) {
-                withContext(Dispatchers.IO) {
-                    val imageBitmap = decodeImageFromFile(imageUri)
-                    profilePicBitmap = imageBitmap
-                }
-                binding.profileImageView.setImageBitmap(profilePicBitmap)
+                val imageFile = File(requireContext().filesDir, imageUri)
+                BitmapFactory.decodeFile(imageFile.absolutePath)
             } else {
-                binding.profileImageView.setImageResource(R.drawable.default_profile_image)
+                null
             }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error loading profile image", e)
+            null
         }
     }
 

@@ -52,21 +52,9 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun replaceFragment(fragment: Fragment) {
-        findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
-    }
-
-    private fun logoutUser() {
-        // Clear user session or preferences
-        val sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.clear()
-        editor.apply()
-
-        // Navigate back to login screen
-        val intent = Intent(requireContext(), LoginActivity::class.java)
-        startActivity(intent)
-        requireActivity().finish()
+    override fun onResume() {
+        super.onResume()
+        loadUserProfile()
     }
 
     private fun loadUserProfile() {
@@ -75,7 +63,6 @@ class ProfileFragment : Fragment() {
 
             if (userId != -1) {
                 try {
-                    // Use ViewModel to load user profile
                     userProfileViewModel.getUserProfileById(userId,
                         onSuccess = { userProfile ->
                             updateUI(userProfile)
@@ -93,9 +80,25 @@ class ProfileFragment : Fragment() {
             } else {
                 Log.e(TAG, "User ID not found in SharedPreferences")
                 Toast.makeText(requireContext(), "Please log in to view your profile", Toast.LENGTH_LONG).show()
-                // TODO: Navigate to login screen if not logged in
             }
         }
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
+    }
+
+    private fun logoutUser() {
+        // Clear user session or preferences
+        val sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.clear()
+        editor.apply()
+
+        // Navigate back to login screen
+        val intent = Intent(requireContext(), LoginActivity::class.java)
+        startActivity(intent)
+        requireActivity().finish()
     }
 
     private fun updateUI(userProfile: UserProfile) {

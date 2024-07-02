@@ -7,6 +7,7 @@ import com.example.reuniteapp.data.AppDatabase
 import com.example.reuniteapp.models.UserProfile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class UserProfileViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -17,12 +18,18 @@ class UserProfileViewModel(application: Application) : AndroidViewModel(applicat
             try {
                 val userProfile = userProfileDao.getUserProfileById(userId)
                 if (userProfile != null) {
-                    onSuccess(userProfile)
+                    withContext(Dispatchers.Main) {
+                        onSuccess(userProfile)
+                    }
                 } else {
-                    throw Exception("User profile not found")
+                    withContext(Dispatchers.Main) {
+                        onError(Exception("User profile not found"))
+                    }
                 }
             } catch (e: Exception) {
-                onError(e)
+                withContext(Dispatchers.Main) {
+                    onError(e)
+                }
             }
         }
     }
@@ -31,9 +38,13 @@ class UserProfileViewModel(application: Application) : AndroidViewModel(applicat
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 userProfileDao.updateUserProfile(userProfile)
-                onSuccess()
+                withContext(Dispatchers.Main) {
+                    onSuccess()
+                }
             } catch (e: Exception) {
-                onError(e)
+                withContext(Dispatchers.Main) {
+                    onError(e)
+                }
             }
         }
     }
