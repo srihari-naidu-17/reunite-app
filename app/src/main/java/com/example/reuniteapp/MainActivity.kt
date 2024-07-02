@@ -55,7 +55,8 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_about -> {
-                // Handle about action
+                val intent = Intent(this, AboutActivity::class.java)
+                startActivity(intent)
                 true
             }
             R.id.action_logout -> {
