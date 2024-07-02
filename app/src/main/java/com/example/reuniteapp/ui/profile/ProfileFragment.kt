@@ -103,7 +103,6 @@ class ProfileFragment : Fragment() {
             null
         }
     }
-
     private fun getUserIdFromSharedPreferences(): Int {
         val sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
         return sharedPreferences.getInt("USER_ID", -1)
