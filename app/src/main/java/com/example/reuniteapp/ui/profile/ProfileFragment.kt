@@ -11,10 +11,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.reuniteapp.R
 import com.example.reuniteapp.data.AppDatabase
-import com.example.reuniteapp.data.UserProfileDao
 import com.example.reuniteapp.databinding.FragmentProfileBinding
 import com.example.reuniteapp.models.UserProfile
 import com.example.reuniteapp.ui.LoginActivity
@@ -25,7 +26,7 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var userProfileDao: UserProfileDao
+    private lateinit var userProfileViewModel: UserProfileViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
@@ -35,24 +36,24 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val userId = getUserIdFromSharedPreferences()
-        Log.d("com.example.reuniteapp.ui.profile.ProfileFragment", "User ID from SharedPreferences: $userId")
+        // Initialize ViewModel
+        userProfileViewModel = ViewModelProvider(this).get(UserProfileViewModel::class.java)
 
-        // Initialize userProfileDao
-        val database = AppDatabase.getDatabase(requireContext())
-        userProfileDao = database.userProfileDao()
-        Log.d("com.example.reuniteapp.ui.profile.ProfileFragment", "userProfileDao initialized")
-
+        // Load user profile
         loadUserProfile()
 
         binding.editProfileButton.setOnClickListener {
-            // TODO: Implement navigation to edit profile screen
-            Toast.makeText(requireContext(), "Edit Profile clicked", Toast.LENGTH_SHORT).show()
+            // Navigate to EditProfileFragment
+            replaceFragment(EditProfileFragment())
         }
 
         binding.logoutButton.setOnClickListener {
             logoutUser()
         }
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
     }
 
     private fun logoutUser() {
@@ -71,24 +72,26 @@ class ProfileFragment : Fragment() {
     private fun loadUserProfile() {
         viewLifecycleOwner.lifecycleScope.launch {
             val userId = getUserIdFromSharedPreferences()
-            Log.d("com.example.reuniteapp.ui.profile.ProfileFragment", "User ID from SharedPreferences: $userId")
 
             if (userId != -1) {
                 try {
-                    val userProfile = userProfileDao.getUserProfileById(userId)
-                    if (userProfile != null) {
-                        updateUI(userProfile)
-                        Log.d("com.example.reuniteapp.ui.profile.ProfileFragment", "User profile loaded successfully")
-                    } else {
-                        Log.e("com.example.reuniteapp.ui.profile.ProfileFragment", "User profile not found for ID: $userId")
-                        Toast.makeText(requireContext(), "User profile not found", Toast.LENGTH_SHORT).show()
-                    }
+                    // Use ViewModel to load user profile
+                    userProfileViewModel.getUserProfileById(userId,
+                        onSuccess = { userProfile ->
+                            updateUI(userProfile)
+                            Log.d(TAG, "User profile loaded successfully")
+                        },
+                        onError = { e ->
+                            Log.e(TAG, "Error loading user profile", e)
+                            Toast.makeText(requireContext(), "Failed to load user profile", Toast.LENGTH_SHORT).show()
+                        }
+                    )
                 } catch (e: Exception) {
-                    Log.e("com.example.reuniteapp.ui.profile.ProfileFragment", "Error retrieving user profile", e)
+                    Log.e(TAG, "Error retrieving user profile", e)
                     Toast.makeText(requireContext(), "Failed to load user profile", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                Log.e("com.example.reuniteapp.ui.profile.ProfileFragment", "User ID not found in SharedPreferences")
+                Log.e(TAG, "User ID not found in SharedPreferences")
                 Toast.makeText(requireContext(), "Please log in to view your profile", Toast.LENGTH_LONG).show()
                 // TODO: Navigate to login screen if not logged in
             }
@@ -96,16 +99,18 @@ class ProfileFragment : Fragment() {
     }
 
     private fun updateUI(userProfile: UserProfile) {
-        binding.nameTextView.text = userProfile.name
-        binding.emailTextView.text = userProfile.email
-        binding.contactNumberTextView.text = userProfile.contactNumber
+        requireActivity().runOnUiThread {
+            binding.nameTextView.text = userProfile.name
+            binding.emailTextView.text = userProfile.email
+            binding.contactNumberTextView.text = userProfile.contactNumber
 
-        // Load profile image if available
-        val profileImage = loadProfileImage(requireContext(), userProfile)
-        if (profileImage != null) {
-            binding.profileImage.setImageBitmap(profileImage)
-        } else {
-            binding.profileImage.setImageResource(R.drawable.default_profile_image)
+            // Load profile image if available
+            val profileImage = loadProfileImage(requireContext(), userProfile)
+            if (profileImage != null) {
+                binding.profileImage.setImageBitmap(profileImage)
+            } else {
+                binding.profileImage.setImageResource(R.drawable.default_profile_image)
+            }
         }
     }
 
@@ -118,10 +123,11 @@ class ProfileFragment : Fragment() {
                 null
             }
         } catch (e: Exception) {
-            Log.e("com.example.reuniteapp.ui.profile.ProfileFragment", "Error loading profile image", e)
+            Log.e(TAG, "Error loading profile image", e)
             null
         }
     }
+
     private fun getUserIdFromSharedPreferences(): Int {
         val sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
         return sharedPreferences.getInt("USER_ID", -1)
@@ -130,5 +136,9 @@ class ProfileFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        private const val TAG = "ProfileFragment"
     }
 }

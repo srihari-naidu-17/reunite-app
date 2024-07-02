@@ -18,24 +18,27 @@ abstract class AppDatabase : RoomDatabase() {
         private var INSTANCE: AppDatabase? = null
 
         fun getDatabase(context: Context): AppDatabase {
-            return INSTANCE ?: synchronized(this) {
+            val tempInstance = INSTANCE
+            if (tempInstance != null) {
+                return tempInstance
+            }
+            synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "app_database"
-                )
-                    .addMigrations(MIGRATION_1_2) // Add migration from version 1 to version 2
-                    .build()
+                    "reunite_app_database"
+                ).build()
                 INSTANCE = instance
-                instance
+                return instance
             }
         }
 
+
         // Define your migration from version 1 to version 2
         private val MIGRATION_1_2 = object : Migration(1, 2) {
-            override fun migrate(database: SupportSQLiteDatabase) {
+            override fun migrate(db: SupportSQLiteDatabase) {
                 // Migration strategy: For example, adding a new column
-                database.execSQL("ALTER TABLE user_profiles ADD COLUMN profilePic TEXT DEFAULT '' NOT NULL")
+                db.execSQL("ALTER TABLE user_profiles ADD COLUMN profilePic TEXT DEFAULT '' NOT NULL")
             }
         }
     }

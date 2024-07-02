@@ -2,7 +2,6 @@ package com.example.reuniteapp.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.ColumnInfo
 import androidx.room.Index
 
 @Entity(
@@ -13,9 +12,9 @@ data class UserProfile(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     var name: String = "",
     var contactNumber: String = "",
-    val username: String,
+    val username: String = "", // Added default value to ensure no-arg constructor
     var password: String = "",
     var profileImageUri: String = "",
-    val email: String,
-    val profilePic: String
+    var email: String = "",
+    val profilePic: String = ""
 )

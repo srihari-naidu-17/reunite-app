@@ -9,7 +9,6 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.preference.PreferenceManager
 import com.example.reuniteapp.MainActivity
 import com.example.reuniteapp.R
 import com.example.reuniteapp.data.AppDatabase
