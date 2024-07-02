@@ -10,6 +10,7 @@ data class UserProfile(
     var contactNumber: String = "",
     var username: String = "",
     var password: String = "",
-    var profilePic: String = "",
-    val email: String
+    var profileImageUri: String = "",
+    val email: String,
+    val profilePic: String
 )

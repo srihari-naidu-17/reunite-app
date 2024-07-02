@@ -1,8 +1,6 @@
 package com.example.reuniteapp.data
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.example.reuniteapp.models.UserProfile
 
 @Dao
@@ -12,4 +10,10 @@ interface UserProfileDao {
 
     @Query("SELECT * FROM user_profiles WHERE email = :email")
     suspend fun getUserProfileByEmail(email: String): UserProfile?
+
+    @Query("SELECT * FROM user_profiles WHERE id = :userId")
+    suspend fun getUserProfileById(userId: Int): UserProfile?
+
+    @Update
+    suspend fun updateUserProfile(userProfile: UserProfile)
 }
