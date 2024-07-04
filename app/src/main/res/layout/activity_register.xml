@@ -76,6 +76,12 @@
             android:layout_marginTop="16dp"
             android:text="Register"
             android:padding="15dp"/>
+
+        <Button
+            android:id="@+id/backToLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Back to Login" />
     </LinearLayout>
 
 </LinearLayout>

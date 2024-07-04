@@ -24,6 +24,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var etUsername: EditText
     private lateinit var etPassword: EditText
     private lateinit var btnRegister: Button
+    private lateinit var backToLogin: Button
 
     private lateinit var userProfileDao: UserProfileDao
 
@@ -37,9 +38,15 @@ class RegisterActivity : AppCompatActivity() {
         etUsername = findViewById(R.id.etUsername)
         etPassword = findViewById(R.id.etPassword)
         btnRegister = findViewById(R.id.btnRegister)
+        backToLogin = findViewById(R.id.backToLogin)
 
         val database = AppDatabase.getDatabase(this)
         userProfileDao = database.userProfileDao()
+
+        // Set click listener for Back to Login button
+        backToLogin.setOnClickListener {
+            navigateToLogin()
+        }
 
         btnRegister.setOnClickListener {
             val name = etName.text.toString()
@@ -81,6 +88,12 @@ class RegisterActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun navigateToLogin() {
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        finish() // Optional: If you want to finish the current activity after navigating back
     }
 
     private fun saveUserIdToSharedPreferences(userId: Int) {
