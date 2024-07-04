@@ -1,16 +1,20 @@
 package com.example.reuniteapp.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.appcompat.widget.SearchView
-import com.example.reuniteapp.R  // Replace with your actual package name
+import com.example.reuniteapp.R
+import com.example.reuniteapp.ui.AddItemActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class HomeFragment : Fragment() {
 
     private lateinit var searchView: SearchView
+    private lateinit var addLostItemButton: FloatingActionButton
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,6 +26,9 @@ class HomeFragment : Fragment() {
 
         // Initialize search view
         searchView = view.findViewById(R.id.searchView)
+
+        // Initialize add lost item button
+        addLostItemButton = view.findViewById(R.id.addLostItemButton)
 
         // Set up search view listeners
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -36,13 +43,11 @@ class HomeFragment : Fragment() {
             }
         })
 
-        // Set up Lost Item Card
-        val lostItemCard = view.findViewById<View>(R.id.lostItemCard)
-        // Add click or other listeners to interact with this card
-
-        // Set up Found Item Card
-        val foundItemCard = view.findViewById<View>(R.id.foundItemCard)
-        // Add click or other listeners to interact with this card
+        // Set up add lost item button listener
+        addLostItemButton.setOnClickListener {
+            val intent = Intent(activity, AddItemActivity::class.java)
+            startActivity(intent)
+        }
 
         return view
     }

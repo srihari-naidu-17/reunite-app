@@ -40,6 +40,8 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
+        <activity android:name=".ui.AddItemActivity" />
+        <activity android:name=".ui.ItemsListActivity" />
     </application>
 
 </manifest>
