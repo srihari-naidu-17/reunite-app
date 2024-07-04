@@ -13,6 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.preference.PreferenceManager
+import com.example.reuniteapp.ui.report.ReportActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -58,5 +59,10 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        binding.addLostItemButton.setOnClickListener {view ->
+            val intent = Intent(this, ReportActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

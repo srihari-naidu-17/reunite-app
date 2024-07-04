@@ -40,6 +40,11 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
+        <activity
+            android:name=".ui.report.ReportActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ReuniteApp.ReportActivity"
+            android:label="Report" />
     </application>
 
 </manifest>

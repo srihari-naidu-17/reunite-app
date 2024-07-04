@@ -40,4 +40,5 @@
         android:name="com.example.reuniteapp.ui.profile.EditProfileFragment"
         android:label="Edit Profile"
         tools:layout="@layout/fragment_edit_profile" />
+
 </navigation>
