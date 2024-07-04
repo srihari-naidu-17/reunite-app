@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#FFFEFC"
-    android:gravity="center">
+    android:background="@color/light_beige"
+    android:gravity="center"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/imageView"
@@ -19,11 +19,15 @@
     <TextView
         android:id="@+id/splash_text"
         android:layout_width="wrap_content"
-        android:layout_height="89dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:fontFamily="cursive"
-        android:text="ReUnite"
-        android:textColor="#88BFD8"
-        android:textSize="72sp"
-        android:textStyle="italic" />
+        android:fontFamily="@font/reunitetitle"
+        android:shadowColor="#CE000000"
+        android:shadowDx="4"
+        android:shadowDy="3"
+        android:shadowRadius="4"
+        android:soundEffectsEnabled="false"
+        android:text="reUNITE!"
+        android:textColor="#740000"
+        android:textSize="72sp" />
 </LinearLayout>
