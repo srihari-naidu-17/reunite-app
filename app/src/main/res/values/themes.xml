@@ -21,4 +21,9 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="Theme.ReuniteApp.ReportActivity" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
 </resources>
