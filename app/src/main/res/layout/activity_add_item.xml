@@ -33,9 +33,27 @@
         android:hint="Category"
         android:inputType="text" />
 
+    <ImageView
+        android:id="@+id/imageViewItem"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="Item Image"
+        android:scaleType="centerCrop"
+        android:src="@android:drawable/ic_menu_gallery" />
+
+    <Button
+        android:id="@+id/buttonUploadImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Upload Image" />
+
     <Button
         android:id="@+id/buttonSaveItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="Save Item" />
 </LinearLayout>
+
