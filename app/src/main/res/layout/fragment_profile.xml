@@ -82,7 +82,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="Edit Profile"
+                    android:text="EDIT PROFILE"
+                    android:letterSpacing="0.2"
+                    android:textAlignment="center"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/contactNumberTextView" />
@@ -93,7 +95,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Logout"
+                    android:text="LOGOUT"
+                    android:letterSpacing="0.2"
+                    android:textAlignment="center"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/editProfileButton" />

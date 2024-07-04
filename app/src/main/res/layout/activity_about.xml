@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:paddingBottom="16dp"
-        android:text="About Us"
+        android:text="ABOUT US"
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold" />
