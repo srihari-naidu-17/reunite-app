@@ -11,63 +11,78 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:paddingBottom="32dp"
-        android:text="Register"
+        android:text="SIGN UP"
         android:textSize="56sp"
+        android:textAlignment="center"
         android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:letterSpacing="0.2"
+        android:textAlignment="center"
         android:padding="16dp">
 
         <EditText
             android:id="@+id/etName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Name"
+            android:hint="NAME"
             android:inputType="text"
+            android:letterSpacing="0.2"
+            android:textAlignment="center"
             android:padding="15dp" />
 
         <EditText
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email"
+            android:hint="EMAIL"
             android:inputType="textEmailAddress"
+            android:letterSpacing="0.2"
+            android:textAlignment="center"
             android:padding="15dp" />
 
         <EditText
             android:id="@+id/etContactNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Contact Number"
+            android:hint="CONTACT NUMBER"
             android:inputType="phone"
+            android:letterSpacing="0.2"
+            android:textAlignment="center"
             android:padding="15dp" />
 
         <EditText
             android:id="@+id/etUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Username"
+            android:hint="USERNAME"
             android:inputType="text"
+            android:letterSpacing="0.2"
+            android:textAlignment="center"
             android:padding="15dp" />
 
         <EditText
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password"
+            android:hint="PASSWORD"
             android:inputType="textPassword"
-            android:padding="15dp"/>
+            android:letterSpacing="0.2"
+            android:textAlignment="center"
+            android:padding="15dp" />
 
         <EditText
             android:id="@+id/etConfirmPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Confirm Password"
+            android:hint="CONFIRM PASSWORD"
             android:inputType="textPassword"
-            android:padding="15dp"/>
+            android:letterSpacing="0.2"
+            android:textAlignment="center"
+            android:padding="15dp" />
 
         <Button
             android:id="@+id/btnRegister"
@@ -75,6 +90,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Register"
+            android:letterSpacing="0.2"
+            android:textAlignment="center"
             android:padding="15dp"/>
     </LinearLayout>
 

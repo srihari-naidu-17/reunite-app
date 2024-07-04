@@ -3,54 +3,69 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:textAlignment="center">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="About Us"
-        android:textSize="24sp"
-        android:textStyle="bold"
         android:layout_gravity="center_horizontal"
-        android:paddingBottom="16dp"/>
+        android:paddingBottom="16dp"
+        android:text="About Us"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
         android:text="This app is developed by the following team members:"
-        android:paddingBottom="8dp"/>
+        android:textAlignment="center" />
 
     <!-- Add details about yourself and the group members here -->
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1. Srihari Naidu"
-        android:paddingBottom="4dp"/>
+        android:paddingBottom="4dp"
+        android:text="Srihari Naidu"
+        android:textAlignment="center" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="2. Sukanya"
-        android:paddingBottom="4dp"/>
+        android:paddingBottom="4dp"
+        android:text="Sukanya Thinakaran"
+        android:textAlignment="center" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="3. Nagappan"
-        android:paddingBottom="4dp"/>
+        android:paddingBottom="4dp"
+        android:text="Nagappan"
+        android:textAlignment="center" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="4. Shravan Ram"
-        android:paddingBottom="4dp"/>
+        android:paddingBottom="4dp"
+        android:text="Shravan Ram"
+        android:textAlignment="center" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="5. Tan Hooi Well"
-        android:paddingBottom="4dp"/>
+        android:paddingBottom="4dp"
+        android:text="Tan Hooi Well"
+        android:textAlignment="center" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="6. David Lim"
-        android:paddingBottom="4dp"/>
+        android:paddingBottom="4dp"
+        android:text="David Lim"
+        android:textAlignment="center" />
 
 
     <!-- Add more details as necessary -->
