@@ -21,7 +21,24 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <!--This is for Report Theme -->
     <style name="Theme.ReuniteApp.ReportActivity" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/maroon</item>
+        <item name="colorPrimaryVariant">@color/maroon</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/pink</item>
+        <item name="colorSecondaryVariant">@color/brown</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <!-- Font family -->
+        <item name="android:fontFamily">@font/poppins_extralight</item>
+        <!-- Letter spacing -->
+        <item name="android:letterSpacing">0</item>
+        <!-- Default background color -->
+        <item name="android:windowBackground">@color/light_beige</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
