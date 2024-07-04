@@ -7,13 +7,11 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.ViewModelProvider
 import com.example.reuniteapp.R
-import com.example.reuniteapp.data.AppDatabase
-import com.example.reuniteapp.data.ItemsDao
 import com.example.reuniteapp.models.Items
+import com.example.reuniteapp.ui.home.ItemsViewModel
 import com.example.reuniteapp.ui.profile.UserProfileViewModel
-import kotlinx.coroutines.launch
 
 class AddItemActivity : AppCompatActivity() {
 
@@ -22,9 +20,9 @@ class AddItemActivity : AppCompatActivity() {
     private lateinit var editTextItemLocation: EditText
     private lateinit var editTextItemCategory: EditText
     private lateinit var buttonSaveItem: Button
-    private lateinit var itemsDao: ItemsDao
 
     private val userProfileViewModel: UserProfileViewModel by viewModels()
+    private lateinit var itemsViewModel: ItemsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,8 +34,7 @@ class AddItemActivity : AppCompatActivity() {
         editTextItemCategory = findViewById(R.id.editTextItemCategory)
         buttonSaveItem = findViewById(R.id.buttonSaveItem)
 
-        val database = AppDatabase.getDatabase(this)
-        itemsDao = database.itemsDao()
+        itemsViewModel = ViewModelProvider(this).get(ItemsViewModel::class.java)
 
         buttonSaveItem.setOnClickListener {
             val itemTitle = editTextItemTitle.text.toString()
@@ -63,15 +60,10 @@ class AddItemActivity : AppCompatActivity() {
                         itemCategory = itemCategory
                     )
 
-                    lifecycleScope.launch {
-                        try {
-                            itemsDao.insert(newItem)
-                            Toast.makeText(this@AddItemActivity, "Item saved successfully", Toast.LENGTH_SHORT).show()
-                            finish() // Close the activity after saving the item
-                        } catch (e: Exception) {
-                            Toast.makeText(this@AddItemActivity, "Failed to save item", Toast.LENGTH_SHORT).show()
-                        }
-                    }
+                    itemsViewModel.addItem(newItem)
+                    Toast.makeText(this@AddItemActivity, "Item saved successfully", Toast.LENGTH_SHORT).show()
+                    finish() // Close the activity after saving the item
+
                 }, {
                     Toast.makeText(this, "Failed to retrieve user information", Toast.LENGTH_SHORT).show()
                 })

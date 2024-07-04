@@ -25,5 +25,5 @@ data class Items(
     val itemDescription: String = "",
     val itemCategory: String = "",
     val userEmail: String = "", // Derived from UserProfile.email
-    val contactNumber: String = "", // Derived from UserProfile.contactNumber
+    val contactNumber: String = "" // Derived from UserProfile.contactNumber
 )
