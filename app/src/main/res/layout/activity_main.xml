@@ -23,7 +23,7 @@
         android:id="@+id/nav_host_fragment_activity_main"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         app:defaultNavHost="true"
         app:layout_constraintBottom_toTopOf="@id/nav_view"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -36,13 +36,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:layout_marginEnd="36dp"
-        android:layout_marginBottom="44dp"
         android:clickable="true"
         android:contentDescription="@string/report_lost_or_found_item"
         android:src="@drawable/reportbutton"
         android:tint="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="@id/nav_view"
         app:layout_constraintBottom_toTopOf="@id/nav_view"
         app:layout_constraintEnd_toEndOf="parent" />
 
