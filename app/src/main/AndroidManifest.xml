@@ -43,7 +43,7 @@
         <activity
             android:name=".ui.report.ReportActivity"
             android:exported="false"
-            android:theme="@style/Theme.ReuniteApp.ReportActivity"
+            android:theme="@style/Theme.ReuniteApp"
             android:label="Report" />
     </application>
 
