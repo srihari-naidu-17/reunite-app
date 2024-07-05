@@ -93,6 +93,12 @@
             android:letterSpacing="0.2"
             android:textAlignment="center"
             android:padding="15dp"/>
+
+        <Button
+            android:id="@+id/backToLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Back to Login" />
     </LinearLayout>
 
 </LinearLayout>
