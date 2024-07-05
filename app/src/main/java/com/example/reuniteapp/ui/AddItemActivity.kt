@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Button
@@ -24,6 +25,8 @@ import com.example.reuniteapp.data.ItemsDao
 import com.example.reuniteapp.models.Items
 import com.example.reuniteapp.ui.profile.UserProfileViewModel
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 
 class AddItemActivity : AppCompatActivity() {
@@ -65,10 +68,18 @@ class AddItemActivity : AppCompatActivity() {
     }
 
     private fun checkPermissionAndOpenFileChooser() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_READ_EXTERNAL_STORAGE)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_MEDIA_IMAGES), REQUEST_READ_MEDIA_IMAGES)
+            } else {
+                openFileChooser()
+            }
         } else {
-            openFileChooser()
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_READ_EXTERNAL_STORAGE)
+            } else {
+                openFileChooser()
+            }
         }
     }
 
@@ -86,6 +97,12 @@ class AddItemActivity : AppCompatActivity() {
                 openFileChooser()
             } else {
                 Toast.makeText(this, "Permission denied to read external storage", Toast.LENGTH_SHORT).show()
+            }
+        } else if (requestCode == REQUEST_READ_MEDIA_IMAGES) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openFileChooser()
+            } else {
+                Toast.makeText(this, "Permission denied to read media images", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -108,13 +125,13 @@ class AddItemActivity : AppCompatActivity() {
         val itemDescription = editTextItemDescription.text.toString()
         val itemLocation = editTextItemLocation.text.toString()
         val itemCategory = editTextItemCategory.text.toString()
-        val itemImage = imageUri?.toString() ?: ""
+        val itemImage = imageUri?.toString()?: ""
 
         if (itemTitle.isNotEmpty() && itemDescription.isNotEmpty() && itemLocation.isNotEmpty() && itemImage.isNotEmpty()) {
             val sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
             val userId = sharedPreferences.getInt("USER_ID", -1)
 
-            userProfileViewModel.getUserProfileById(userId, { userProfile ->
+            userProfileViewModel.getUserProfileById(userId, { userProfile->
                 val foundBy = userProfile.username
 
                 val newItem = Items(
@@ -129,6 +146,17 @@ class AddItemActivity : AppCompatActivity() {
 
                 lifecycleScope.launch {
                     try {
+                        // Save image to file
+                        val directory = File(this@AddItemActivity.filesDir, "images")
+                        if (!directory.exists()) {
+                            directory.mkdirs()
+                        }
+                        val file = File(directory, "$itemTitle.jpg")
+                        val outputStream = FileOutputStream(file)
+                        val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageUri)
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+                        outputStream.close()
+
                         itemsDao.insert(newItem)
                         Toast.makeText(this@AddItemActivity, "Item saved successfully", Toast.LENGTH_SHORT).show()
                         finish() // Close the activity after saving the item
@@ -147,5 +175,6 @@ class AddItemActivity : AppCompatActivity() {
     companion object {
         private const val PICK_IMAGE_REQUEST = 1
         private const val REQUEST_READ_EXTERNAL_STORAGE = 2
+        private const val REQUEST_READ_MEDIA_IMAGES = 3
     }
 }
