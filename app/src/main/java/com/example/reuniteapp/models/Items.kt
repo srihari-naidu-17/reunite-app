@@ -16,7 +16,7 @@ import androidx.room.PrimaryKey
 data class Items(
     @PrimaryKey(autoGenerate = true) val itemId: Int = 0,
     val foundBy: String, // Foreign key referencing UserProfile.username
-    val found: Boolean = false,
+    val reunited: Boolean = false, // Changed from found to reunited
     val itemImage: String,
     val itemTitle: String,
     val location: String = "",
@@ -25,5 +25,5 @@ data class Items(
     val itemDescription: String = "",
     val itemCategory: String = "",
     val userEmail: String = "", // Derived from UserProfile.email
-    val contactNumber: String = "", // Derived from UserProfile.contactNumber
+    val contactNumber: String = "" // Derived from UserProfile.contactNumber
 )

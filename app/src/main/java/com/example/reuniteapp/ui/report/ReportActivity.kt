@@ -161,7 +161,7 @@ class ReportActivity : AppCompatActivity() {
 
                 val newItem = Items(
                     foundBy = foundBy,
-                    found = itemCategory == "Found",
+                    reunited = false,
                     itemImage = itemImage,
                     itemTitle = itemTitle,
                     location = itemLocation,
