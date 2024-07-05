@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -13,14 +12,11 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.reuniteapp.R
-import com.example.reuniteapp.ui.report.ReportActivity
 import com.example.reuniteapp.ui.ItemsAdapter
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class HomeFragment : Fragment() {
 
     private lateinit var searchView: SearchView
-    private lateinit var addReportButton: FloatingActionButton
     private lateinit var recyclerViewItems: RecyclerView
 
     private val itemsViewModel: ItemsViewModel by viewModels()
@@ -35,9 +31,6 @@ class HomeFragment : Fragment() {
 
         // Initialize search view
         searchView = view.findViewById(R.id.searchView)
-
-        // Initialize add report button
-        addReportButton = view.findViewById(R.id.addReportButton)
 
         // Set up search view listeners
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -62,12 +55,6 @@ class HomeFragment : Fragment() {
                 // Handle item click if needed
             }
         })
-
-        // Set up add report button listener
-        addReportButton.setOnClickListener {
-            val intent = Intent(activity, ReportActivity::class.java)
-            startActivity(intent)
-        }
 
         return view
     }

@@ -27,14 +27,4 @@
         android:clipToPadding="false"
         android:scrollbars="vertical"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addReportButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="16dp"
-        android:clickable="true"
-        app:srcCompat="@drawable/add"
-        app:tint="@android:color/white" />
-
 </LinearLayout>
