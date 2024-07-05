@@ -59,10 +59,5 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
-        binding.addLostItemButton.setOnClickListener {view ->
-            val intent = Intent(this, ReportActivity::class.java)
-            startActivity(intent)
-        }
     }
 }
