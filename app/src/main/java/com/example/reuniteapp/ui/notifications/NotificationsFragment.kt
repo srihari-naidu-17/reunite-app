@@ -1,42 +1,51 @@
 package com.example.reuniteapp.ui.notifications
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.example.reuniteapp.databinding.FragmentNotificationsBinding
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.reuniteapp.R
+import com.example.reuniteapp.ui.home.ItemsViewModel
+import com.example.reuniteapp.models.Items
 
 class NotificationsFragment : Fragment() {
 
-    private var _binding: FragmentNotificationsBinding? = null
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: NotificationsAdapter
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private val itemsViewModel: ItemsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val notificationsViewModel =
-            ViewModelProvider(this).get(NotificationsViewModel::class.java)
+        val view = inflater.inflate(R.layout.fragment_notifications, container, false)
 
-        _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        recyclerView = view.findViewById(R.id.recyclerViewNotifications)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        val textView: TextView = binding.textNotifications
-        notificationsViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-        return root
+        val sharedPreferences = requireContext().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        val userId = sharedPreferences.getInt("USER_ID", -1)
+
+        itemsViewModel.items.observe(viewLifecycleOwner, Observer { items ->
+            val userItems = items.filter { it.foundBy == userId } // Filter by user ID
+            val notifications = userItems.sortedByDescending { it.date + it.time } // Sort by date and time
+            adapter = NotificationsAdapter(notifications)
+            recyclerView.adapter = adapter
+        })
+
+        return view
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun onResume() {
+        super.onResume()
+        itemsViewModel.loadItems() // Reload items when fragment becomes visible
     }
 }
