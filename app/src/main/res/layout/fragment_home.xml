@@ -1,63 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="8dp">
+    android:fillViewport="true">
 
-    <!-- Search Bar -->
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:background="@color/white"
-        android:elevation="2dp"
-        android:iconifiedByDefault="false"
-        android:padding="8dp"
-        android:queryHint="Search..." />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="8dp">
 
-    <!-- Lost Items Header -->
-    <TextView
-        android:id="@+id/lostItemsHeader"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_bold"
-        android:padding="8dp"
-        android:text="Lost Items"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        <!-- Search Bar -->
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@color/white"
+            android:elevation="2dp"
+            android:iconifiedByDefault="false"
+            android:padding="8dp"
+            android:queryHint="Search..." />
 
-    <!-- RecyclerView for Lost Items -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewLostItems"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:padding="8dp"
-        android:clipToPadding="false"
-        android:scrollbars="vertical" />
+        <!-- Lost Items Header -->
+        <TextView
+            android:id="@+id/lostItemsHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_bold"
+            android:padding="8dp"
+            android:text="Lost Items"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-    <!-- Found Items Header -->
-    <TextView
-        android:id="@+id/foundItemsHeader"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_bold"
-        android:padding="8dp"
-        android:text="Found Items"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        <!-- RecyclerView for Lost Items -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewLostItems"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:clipToPadding="false"
+            android:scrollbars="vertical" />
 
-    <!-- RecyclerView for Found Items -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewFoundItems"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:padding="8dp"
-        android:clipToPadding="false"
-        android:scrollbars="vertical" />
+        <!-- Found Items Header -->
+        <TextView
+            android:id="@+id/foundItemsHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_bold"
+            android:padding="8dp"
+            android:text="Found Items"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-</LinearLayout>
+        <!-- RecyclerView for Found Items -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewFoundItems"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:clipToPadding="false"
+            android:scrollbars="vertical" />
+
+    </LinearLayout>
+</ScrollView>
