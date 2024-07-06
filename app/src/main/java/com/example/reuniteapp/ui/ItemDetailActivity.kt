@@ -115,8 +115,10 @@ class ItemDetailActivity : AppCompatActivity() {
 
             if (userId == item.foundBy) {
                 buttonMarkReunited.visibility = View.VISIBLE
+                buttonCallOwner.visibility = View.GONE
             } else {
                 buttonMarkReunited.visibility = View.GONE
+                buttonCallOwner.visibility = View.VISIBLE
             }
         }
     }
