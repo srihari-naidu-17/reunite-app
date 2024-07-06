@@ -31,6 +31,7 @@ class ItemDetailActivity : AppCompatActivity() {
     private lateinit var itemDescription: TextView
     private lateinit var itemLocation: TextView
     private lateinit var itemDate: TextView
+    private lateinit var itemTime: TextView
     private lateinit var itemContact: TextView
     private lateinit var itemImage: ImageView
     private lateinit var buttonCallOwner: Button
@@ -50,6 +51,7 @@ class ItemDetailActivity : AppCompatActivity() {
         itemDescription = findViewById(R.id.itemDescription)
         itemLocation = findViewById(R.id.itemLocation)
         itemDate = findViewById(R.id.itemDate)
+        itemTime = findViewById(R.id.itemTime)
         itemContact = findViewById(R.id.itemContact)
         itemImage = findViewById(R.id.itemImage)
         buttonCallOwner = findViewById(R.id.buttonCallOwner)
@@ -97,10 +99,11 @@ class ItemDetailActivity : AppCompatActivity() {
             itemDescription.text = item.itemDescription
             itemLocation.text = item.location
             itemDate.text = item.date
+            itemTime.text = item.time
             itemContact.text = item.contactNumber
 
             // Load the image from internal storage
-            val filePath = applicationContext.filesDir.path + "/images/" + item.itemTitle + ".jpg"
+            val filePath = applicationContext.filesDir.path + "/images/" + item.itemImage
             val file = File(filePath)
             if (file.exists()) {
                 val bitmap = BitmapFactory.decodeStream(FileInputStream(file))

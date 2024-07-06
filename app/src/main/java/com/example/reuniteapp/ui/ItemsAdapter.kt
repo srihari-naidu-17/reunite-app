@@ -33,7 +33,7 @@ class ItemsAdapter(
             itemCategory.text = item.itemCategory
 
             // Load the image from internal storage
-            val filePath = context.applicationContext.filesDir.path + "/images/" + item.itemTitle + ".jpg"
+            val filePath = context.applicationContext.filesDir.path + "/images/" + item.itemImage
             val file = File(filePath)
             if (file.exists()) {
                 val bitmap = BitmapFactory.decodeStream(FileInputStream(file))

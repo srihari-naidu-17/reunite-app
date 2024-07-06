@@ -70,8 +70,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:ems="10"
-                android:hint="Date of Item (e.g., DD/MM/YYYY)"
-                android:inputType="date"
+                android:hint="Date of Item"
+                android:inputType="none"
+                android:clickable="true"
+                android:focusable="false"
+                android:textSize="24sp" />
+
+            <EditText
+                android:id="@+id/timeOfItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:ems="10"
+                android:hint="Time of Item"
+                android:inputType="none"
+                android:clickable="true"
+                android:focusable="false"
                 android:textSize="24sp" />
 
             <EditText
@@ -105,18 +119,18 @@
 
             <Button
                 android:id="@+id/buttonUploadImage"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Upload Image" />
 
             <Button
                 android:id="@+id/doneButton"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
                 android:text="DONE"
-                android:textSize="24sp"
-                android:layout_marginTop="50dp" />
+                android:textSize="24sp" />
 
         </LinearLayout>
     </ScrollView>

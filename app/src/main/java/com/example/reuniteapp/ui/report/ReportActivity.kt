@@ -1,6 +1,8 @@
 package com.example.reuniteapp.ui.report
 
 import android.Manifest
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -27,6 +29,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.util.Calendar
 
 class ReportActivity : AppCompatActivity() {
 
@@ -35,6 +38,7 @@ class ReportActivity : AppCompatActivity() {
     private lateinit var editTextItemLocation: EditText
     private lateinit var editTextItemCategory: Spinner
     private lateinit var editTextDate: EditText
+    private lateinit var editTextTime: EditText
     private lateinit var editTextContactInfo: EditText
     private lateinit var imageViewItem: ImageView
     private lateinit var buttonUploadImage: Button
@@ -62,6 +66,15 @@ class ReportActivity : AppCompatActivity() {
         editTextItemLocation = findViewById(R.id.locationOfItem)
         editTextItemCategory = findViewById(R.id.itemStatusSpinner)
         editTextDate = findViewById(R.id.dateOfItem)
+        editTextTime = findViewById(R.id.timeOfItem)
+
+        editTextDate.setOnClickListener {
+            showDatePicker()
+        }
+
+        editTextTime.setOnClickListener {
+            showTimePicker()
+        }
         editTextContactInfo = findViewById(R.id.contactInfo)
         imageViewItem = findViewById(R.id.imageViewItem)
         buttonUploadImage = findViewById(R.id.buttonUploadImage)
@@ -88,6 +101,22 @@ class ReportActivity : AppCompatActivity() {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             editTextItemCategory.adapter = adapter
         }
+    }
+
+    private fun showDatePicker() {
+        val datePickerDialog = DatePickerDialog(this, { _, year, month, day ->
+            val date = "${day}/${month + 1}/${year}"
+            editTextDate.setText(date)
+        }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH))
+        datePickerDialog.show()
+    }
+
+    private fun showTimePicker() {
+        val timePickerDialog = TimePickerDialog(this, { _, hour, minute ->
+            val time = "${hour}:${minute}"
+            editTextTime.setText(time)
+        }, Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), true)
+        timePickerDialog.show()
     }
 
     private fun checkPermissionAndOpenFileChooser() {
@@ -149,6 +178,7 @@ class ReportActivity : AppCompatActivity() {
         val itemLocation = editTextItemLocation.text.toString()
         val itemCategory = editTextItemCategory.selectedItem.toString()
         val itemDate = editTextDate.text.toString()
+        val itemTime = editTextTime.text.toString()
         val itemContactInfo = editTextContactInfo.text.toString()
         val itemImage = imageUri?.toString() ?: ""
 
@@ -158,6 +188,7 @@ class ReportActivity : AppCompatActivity() {
 
             userProfileViewModel.getUserProfileById(userId, { userProfile ->
                 val foundBy = userProfile.username
+                val userEmail = userProfile.email
 
                 val newItem = Items(
                     foundBy = foundBy,
@@ -166,10 +197,11 @@ class ReportActivity : AppCompatActivity() {
                     itemTitle = itemTitle,
                     location = itemLocation,
                     date = itemDate,
+                    time = itemTime,
                     itemDescription = itemDescription,
                     itemCategory = itemCategory,
                     contactNumber = itemContactInfo,
-                    userEmail = userProfile.email
+                    userEmail = userEmail
                 )
 
                 lifecycleScope.launch {
@@ -179,11 +211,13 @@ class ReportActivity : AppCompatActivity() {
                         if (!directory.exists()) {
                             directory.mkdirs()
                         }
-                        val file = File(directory, "$itemTitle.jpg")
+                        val itemImageName = "item_${System.currentTimeMillis()}.jpg"
+                        val file = File(directory, itemImageName)
                         val outputStream = FileOutputStream(file)
                         val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageUri)
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
                         outputStream.close()
+                        newItem.itemImage=itemImageName
 
                         itemsDao.insert(newItem)
                         itemsViewModel.loadItems() // Reload items to reflect the new addition
