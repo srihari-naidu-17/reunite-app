@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
@@ -88,17 +89,27 @@
             android:id="@+id/btnRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button_rounded_bg"
+            android:fontFamily="sans-serif-black"
             android:text="Register"
-            android:letterSpacing="0.2"
-            android:textAlignment="center"
-            android:padding="15dp"/>
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:letterSpacing="0.25"
+            />
 
         <Button
             android:id="@+id/backToLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Back to Login" />
+            android:layout_marginTop="20dp"
+            android:background="@color/transparent"
+            android:letterSpacing="0.25"
+            android:text="Back to login"
+            android:textColor="#581717"
+            android:textColorLink="@color/pink"
+            android:textStyle="italic"
+            tools:visibility="visible" />
     </LinearLayout>
 
 </LinearLayout>

@@ -10,6 +10,7 @@
         android:id="@+id/itemTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_bold"
         android:text="Item Title"
         android:textSize="24sp"
         android:textStyle="bold" />
@@ -25,49 +26,62 @@
         android:id="@+id/itemDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Item Description"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/poppins_regular"
+        android:text="Item Description" />
 
     <TextView
         android:id="@+id/itemLocation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Location"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/poppins_regular"
+        android:text="Location" />
 
     <TextView
         android:id="@+id/itemDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Date"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/poppins_regular"
+        android:text="Date" />
 
     <TextView
         android:id="@+id/itemTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Time"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/poppins_regular"
+        android:text="Time" />
 
     <TextView
         android:id="@+id/itemContact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Contact Info"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/poppins_regular"
+        android:text="Contact Info" />
 
     <Button
         android:id="@+id/buttonCallOwner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_rounded_bg"
+        android:fontFamily="sans-serif-medium"
+        android:letterSpacing="0.25"
         android:text="Call Owner"
-        android:layout_marginTop="16dp" />
+        android:textColor="#FFFFFF" />
 
     <Button
         android:id="@+id/buttonMarkReunited"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/button_rounded_bg"
+        android:fontFamily="sans-serif-medium"
+        android:letterSpacing="0.25"
         android:text="Mark as Reunited"
-        android:layout_marginTop="8dp" />
+        android:textColor="#FFFFFF" />
 
 </LinearLayout>
