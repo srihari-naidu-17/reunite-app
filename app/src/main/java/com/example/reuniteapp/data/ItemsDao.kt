@@ -11,8 +11,8 @@ interface ItemsDao {
     @Update
     suspend fun update(item: Items)
 
-    @Query("SELECT * FROM items WHERE foundBy = :username")
-    suspend fun getItemsByUser(username: String): List<Items>
+    @Query("SELECT * FROM items WHERE foundBy = :userId")
+    suspend fun getItemsByUser(userId: Int): List<Items>
 
     @Query("SELECT * FROM items WHERE itemId = :itemId")
     suspend fun getItemById(itemId: Int): Items?

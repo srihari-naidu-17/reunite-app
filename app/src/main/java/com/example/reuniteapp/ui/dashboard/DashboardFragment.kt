@@ -45,7 +45,7 @@ class DashboardFragment : Fragment() {
         val userId = sharedPreferences.getInt("USER_ID", -1)
 
         itemsViewModel.items.observe(viewLifecycleOwner, Observer { items ->
-            val userItems = items.filter { it.foundBy == userId.toString() } // Assuming foundBy stores userId as String
+            val userItems = items.filter { it.foundBy == userId } // Filter by user ID
             val lostItems = userItems.filter { !it.reunited && it.itemCategory == "Lost Item" }
             val foundItems = userItems.filter { !it.reunited && it.itemCategory == "Found Item" }
             val reunitedItems = userItems.filter { it.reunited }

@@ -187,11 +187,10 @@ class ReportActivity : AppCompatActivity() {
             val userId = sharedPreferences.getInt("USER_ID", -1)
 
             userProfileViewModel.getUserProfileById(userId, { userProfile ->
-                val foundBy = userProfile.username
                 val userEmail = userProfile.email
 
                 val newItem = Items(
-                    foundBy = foundBy,
+                    foundBy = userId, // Store the user ID here
                     reunited = false,
                     itemImage = itemImage,
                     itemTitle = itemTitle,
@@ -217,7 +216,7 @@ class ReportActivity : AppCompatActivity() {
                         val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageUri)
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
                         outputStream.close()
-                        newItem.itemImage=itemImageName
+                        newItem.itemImage = itemImageName
 
                         itemsDao.insert(newItem)
                         itemsViewModel.loadItems() // Reload items to reflect the new addition

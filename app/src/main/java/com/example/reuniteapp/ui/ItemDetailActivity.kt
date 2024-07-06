@@ -113,16 +113,11 @@ class ItemDetailActivity : AppCompatActivity() {
             val sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
             val userId = sharedPreferences.getInt("USER_ID", -1)
 
-            val userProfileViewModel: UserProfileViewModel by viewModels()
-            userProfileViewModel.getUserProfileById(userId, { userProfile ->
-                if (userProfile.username == item.foundBy) {
-                    buttonMarkReunited.visibility = View.VISIBLE
-                } else {
-                    buttonMarkReunited.visibility = View.GONE
-                }
-            }, {
-                Toast.makeText(this@ItemDetailActivity, "Failed to retrieve user information", Toast.LENGTH_SHORT).show()
-            })
+            if (userId == item.foundBy) {
+                buttonMarkReunited.visibility = View.VISIBLE
+            } else {
+                buttonMarkReunited.visibility = View.GONE
+            }
         }
     }
 

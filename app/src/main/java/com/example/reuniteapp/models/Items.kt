@@ -8,14 +8,14 @@ import androidx.room.PrimaryKey
     tableName = "items",
     foreignKeys = [ForeignKey(
         entity = UserProfile::class,
-        parentColumns = ["username"],
+        parentColumns = ["id"], // assuming there's an id field in UserProfile
         childColumns = ["foundBy"],
         onDelete = ForeignKey.CASCADE
     )]
 )
 data class Items(
     @PrimaryKey(autoGenerate = true) val itemId: Int = 0,
-    val foundBy: String, // Foreign key referencing UserProfile.username
+    val foundBy: Int, // Foreign key referencing UserProfile.id
     val reunited: Boolean = false, // Changed from found to reunited
     var itemImage: String,
     val itemTitle: String,
