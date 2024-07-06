@@ -17,7 +17,7 @@ data class Items(
     @PrimaryKey(autoGenerate = true) val itemId: Int = 0,
     val foundBy: String, // Foreign key referencing UserProfile.username
     val reunited: Boolean = false, // Changed from found to reunited
-    val itemImage: String,
+    var itemImage: String,
     val itemTitle: String,
     val location: String = "",
     val date: String = "",
