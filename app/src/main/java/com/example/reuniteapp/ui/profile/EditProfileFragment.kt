@@ -12,6 +12,9 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.example.reuniteapp.R
 import com.example.reuniteapp.data.AppDatabase
 import com.example.reuniteapp.data.UserProfileDao
@@ -20,8 +23,6 @@ import com.example.reuniteapp.models.UserProfile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import androidx.navigation.fragment.findNavController
-import androidx.fragment.app.viewModels
 import java.io.File
 
 class EditProfileFragment : Fragment() {
@@ -45,6 +46,9 @@ class EditProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Hide the back arrow button
+        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
         // Initialize userProfileDao
         val database = AppDatabase.getDatabase(requireContext())
