@@ -14,6 +14,7 @@ import androidx.preference.PreferenceManager
 import com.example.reuniteapp.MainActivity
 import com.example.reuniteapp.R
 import com.example.reuniteapp.data.AppDatabase
+import com.example.reuniteapp.data.SampleData
 import com.example.reuniteapp.data.UserProfileDao
 import kotlinx.coroutines.launch
 
@@ -35,6 +36,7 @@ class LoginActivity : AppCompatActivity() {
         btnLogin = findViewById(R.id.btnLogin)
         tvRegister = findViewById(R.id.tvRegister)
 
+        SampleData.insertSampleData(this)
         val database = AppDatabase.getDatabase(this)
         userProfileDao = database.userProfileDao()
 

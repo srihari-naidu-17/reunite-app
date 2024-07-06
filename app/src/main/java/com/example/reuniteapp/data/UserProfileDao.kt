@@ -16,4 +16,10 @@ interface UserProfileDao {
 
     @Update
     suspend fun updateUserProfile(userProfile: UserProfile)
+
+    @Query("SELECT * FROM user_profiles")
+    suspend fun getAllUserProfiles(): List<UserProfile>
+
+    @Query("SELECT COUNT(*) FROM user_profiles")
+    suspend fun getCount(): Int
 }

@@ -13,6 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.preference.PreferenceManager
+import com.example.reuniteapp.data.SampleData
 import com.example.reuniteapp.ui.report.ReportActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -32,6 +33,8 @@ class MainActivity : AppCompatActivity() {
         Log.d("MainActivity", "isLoggedIn: $isLoggedIn, USER_ID: $userId")
 
         if (!isLoggedIn) {
+            // Insert sample data
+            SampleData.insertSampleData(this)
             navigateToLogin()
             return
         }

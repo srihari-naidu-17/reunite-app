@@ -23,4 +23,7 @@ interface ItemsDao {
 
     @Query("SELECT * FROM items WHERE reunited = :reunited")
     suspend fun getItemsByReunitedStatus(reunited: Boolean): List<Items>
+
+    @Query("SELECT COUNT(*) FROM items")
+    suspend fun getCount(): Int
 }
