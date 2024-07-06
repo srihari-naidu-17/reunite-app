@@ -25,6 +25,13 @@ class ItemsViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun getItemsBySearch(searchQuery: String): LiveData<List<Items>> {
+        viewModelScope.launch {
+            _items.postValue(itemsDao.searchItems(searchQuery))
+        }
+        return _items
+    }
+
     fun addItem(item: Items) {
         viewModelScope.launch {
             itemsDao.insert(item)

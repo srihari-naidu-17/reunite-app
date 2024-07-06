@@ -26,4 +26,9 @@ interface ItemsDao {
 
     @Query("SELECT COUNT(*) FROM items")
     suspend fun getCount(): Int
+
+    @Query("SELECT * FROM items WHERE LOWER(itemTitle) LIKE '%' || LOWER(:query) || '%' OR LOWER(itemDescription) LIKE '%' || LOWER(:query) || '%'")
+    suspend fun searchItems(query: String): List<Items>
+
+
 }

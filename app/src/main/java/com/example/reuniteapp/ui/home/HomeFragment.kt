@@ -59,17 +59,38 @@ class HomeFragment : Fragment() {
         // Set up search view listeners
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                // Handle search query submission
+                query?.let {
+                    performSearch(it)
+                }
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                // Handle search query text change
+                if (newText.isNullOrEmpty()) {
+                    itemsViewModel.loadItems() // Reload all items when search text is empty
+                } else {
+                    performSearch(newText)
+                }
                 return true
             }
         })
 
         return view
+    }
+
+    private fun performSearch(query: String) {
+        itemsViewModel.getItemsBySearch(query).observe(viewLifecycleOwner, Observer { items ->
+            val lostItems = items.filter { !it.reunited && it.itemCategory == "Lost Item" }
+            val foundItems = items.filter { !it.reunited && it.itemCategory == "Found Item" }
+
+            recyclerViewLostItems.adapter = ItemsAdapter(lostItems) { item ->
+                openItemDetail(item)
+            }
+
+            recyclerViewFoundItems.adapter = ItemsAdapter(foundItems) { item ->
+                openItemDetail(item)
+            }
+        })
     }
 
     override fun onResume() {

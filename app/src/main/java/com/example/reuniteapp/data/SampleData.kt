@@ -37,13 +37,13 @@ object SampleData {
                 // Create and insert sample items
                 val items = listOf(
                     // Lost Item items
-                    createItem(context, 1, "Lost Item Phone", "Black iPhone lost at FCI", "10/06/2024", "14:30", R.drawable.item_phone, "Faculty of Computing & Informatics (FCI)", "Lost Item"),
-                    createItem(context, 2, "Lost Item Wallet", "Brown leather wallet lost at FOE", "11/06/2024", "09:15", R.drawable.item_wallet, "Faculty of Engineering (FOE)", "Lost Item"),
+                    createItem(context, 1, "Black iPhone", "Black iPhone lost at FCI", "10/06/2024", "14:30", R.drawable.item_phone, "Faculty of Computing & Informatics (FCI)", "Lost Item"),
+                    createItem(context, 2, "Brown Wallet", "Brown leather wallet lost at FOE", "11/06/2024", "09:15", R.drawable.item_wallet, "Faculty of Engineering (FOE)", "Lost Item"),
 
                     // Found Item items
-                    createItem(context, 3, "Found Item Book", "Science fiction book found in SHDL", "16/06/2024", "15:20", R.drawable.item_book, "Siti Hasmah Digital Library", "Found Item"),
-                    createItem(context, 4, "Found Item Watch", "Smartwatch found in LP", "17/06/2024", "08:45", R.drawable.item_watch, "Learning Point (LP)", "Found Item"),
-                    createItem(context, 1, "Found Item Sunglasses", "Ray-Ban sunglasses found in HTC", "18/06/2024", "10:00", R.drawable.item_sunglasses, "Haji Tapah Cafe (HTC)", "Found Item")
+                    createItem(context, 3, "Science Fiction Book", "Science fiction book found in SHDL", "16/06/2024", "15:20", R.drawable.item_book, "Siti Hasmah Digital Library", "Found Item"),
+                    createItem(context, 4, "Smartwatch", "Smartwatch found in LP", "17/06/2024", "08:45", R.drawable.item_watch, "Learning Point (LP)", "Found Item"),
+                    createItem(context, 1, "Ray-Ban Sunglasses", "Ray-Ban sunglasses found in HTC", "18/06/2024", "10:00", R.drawable.item_sunglasses, "Haji Tapah Cafe (HTC)", "Found Item")
                 )
                 items.forEach { itemsDao.insert(it) }
             }
