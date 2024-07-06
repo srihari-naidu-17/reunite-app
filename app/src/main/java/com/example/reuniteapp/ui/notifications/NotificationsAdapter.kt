@@ -1,6 +1,5 @@
 package com.example.reuniteapp.ui.notifications
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,7 +25,12 @@ class NotificationsAdapter(
 
     override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
         val notification = notifications[position]
-        holder.messageTextView.text = "${notification.itemCategory}: ${notification.itemTitle}"
+        holder.messageTextView.text = when {
+            notification.reunited -> "Reunited: ${notification.itemTitle}"
+            notification.itemCategory == "Lost Item" -> "Lost Item: ${notification.itemTitle}"
+            notification.itemCategory == "Found Item" -> "Found Item: ${notification.itemTitle}"
+            else -> notification.itemTitle
+        }
         holder.timestampTextView.text = "${notification.date} ${notification.time}"
     }
 
