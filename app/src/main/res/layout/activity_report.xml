@@ -34,6 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Lost/Found Report"
+                android:fontFamily="@font/poppins_bold"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:layout_marginTop="16dp" />
@@ -52,7 +53,8 @@
                 android:id="@+id/itemStatusSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="16dp"
+                />
 
             <EditText
                 android:id="@+id/descOfItem"
@@ -121,8 +123,11 @@
                 android:id="@+id/buttonUploadImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Upload Image" />
+                android:layout_marginTop="10dp"
+                android:text="Upload Image"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/button_rounded_bg"
+                android:letterSpacing="0.25"/>
 
             <Button
                 android:id="@+id/doneButton"
@@ -130,7 +135,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
                 android:text="DONE"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/button_rounded_bg"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.25"/>
 
         </LinearLayout>
     </ScrollView>

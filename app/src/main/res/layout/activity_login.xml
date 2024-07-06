@@ -66,8 +66,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
+            android:letterSpacing="0.15"
             android:text="@string/don_t_have_an_account_register"
-            android:textColor="@color/pink"
-            android:letterSpacing="0.15"/>
+            android:textColor="@color/pink" />
     </LinearLayout>
 </LinearLayout>

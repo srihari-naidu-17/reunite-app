@@ -7,6 +7,7 @@
     <color name="white">#f6f4f5</color>
     <color name="beige">#e7cfcd</color>
     <color name="light_beige">#f0e4e2</color>
+    <color name="transparent">#00000000</color>
     <color name="dark_beige">#ccb2af</color>
     <color name="brown">#b39e9c</color>
     <color name="pink">#A07878</color>
