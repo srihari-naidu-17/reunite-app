@@ -23,10 +23,11 @@
         android:id="@+id/lostItemsHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_bold"
+        android:padding="8dp"
         android:text="Lost Items"
         android:textSize="18sp"
-        android:textStyle="bold"
-        android:padding="8dp" />
+        android:textStyle="bold" />
 
     <!-- RecyclerView for Lost Items -->
     <androidx.recyclerview.widget.RecyclerView
@@ -43,10 +44,11 @@
         android:id="@+id/foundItemsHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_bold"
+        android:padding="8dp"
         android:text="Found Items"
         android:textSize="18sp"
-        android:textStyle="bold"
-        android:padding="8dp" />
+        android:textStyle="bold" />
 
     <!-- RecyclerView for Found Items -->
     <androidx.recyclerview.widget.RecyclerView
