@@ -31,4 +31,11 @@ class ItemsViewModel(application: Application) : AndroidViewModel(application) {
             loadItems()
         }
     }
+
+    fun getItemsByTitle(itemTitle: String): LiveData<List<Items>> {
+        viewModelScope.launch {
+            _items.postValue(itemsDao.getItemByTitle(itemTitle))
+        }
+        return _items
+    }
 }

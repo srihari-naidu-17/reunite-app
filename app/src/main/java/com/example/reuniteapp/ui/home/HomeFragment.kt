@@ -35,11 +35,27 @@ class HomeFragment : Fragment() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 // Handle search query submission
+                query?.let {
+                    itemsViewModel.getItemsByTitle(it).observe(viewLifecycleOwner, Observer { items ->
+                        recyclerViewItems.adapter = ItemsAdapter(items) { item ->
+                            // Handle item click if needed
+                        }
+                    })
+                }
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 // Handle search query text change
+                if (newText.isNullOrEmpty()) {
+                    itemsViewModel.loadItems() // Load all items when search text is empty
+                } else {
+                    itemsViewModel.getItemsByTitle(newText).observe(viewLifecycleOwner, Observer { items ->
+                        recyclerViewItems.adapter = ItemsAdapter(items) { item ->
+                            // Handle item click if needed
+                        }
+                    })
+                }
                 return true
             }
         })

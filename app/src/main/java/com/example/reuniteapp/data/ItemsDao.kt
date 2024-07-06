@@ -17,6 +17,9 @@ interface ItemsDao {
     @Query("SELECT * FROM items WHERE itemId = :itemId")
     suspend fun getItemById(itemId: Int): Items?
 
+    @Query("SELECT * FROM items WHERE LOWER(itemTitle) LIKE '%' || LOWER(:itemTitle) || '%'")
+    suspend fun getItemByTitle(itemTitle: String): List<Items>
+
     @Query("SELECT * FROM items WHERE reunited = :reunited")
     suspend fun getItemsByReunitedStatus(reunited: Boolean): List<Items>
 }
