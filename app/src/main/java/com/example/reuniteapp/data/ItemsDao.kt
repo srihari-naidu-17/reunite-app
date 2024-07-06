@@ -1,5 +1,6 @@
 package com.example.reuniteapp.data
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.reuniteapp.models.Items
 
@@ -11,11 +12,14 @@ interface ItemsDao {
     @Update
     suspend fun update(item: Items)
 
-    @Query("SELECT * FROM items WHERE foundBy = :userId")
-    suspend fun getItemsByUser(userId: Int): List<Items>
+    @Query("SELECT * FROM items WHERE foundBy = :username")
+    suspend fun getItemsByUser(username: String): List<Items>
 
     @Query("SELECT * FROM items WHERE itemId = :itemId")
     suspend fun getItemById(itemId: Int): Items?
+
+    @Query("SELECT * FROM items")
+    suspend fun getAllItems(): List<Items>
 
     @Query("SELECT * FROM items WHERE reunited = :reunited")
     suspend fun getItemsByReunitedStatus(reunited: Boolean): List<Items>

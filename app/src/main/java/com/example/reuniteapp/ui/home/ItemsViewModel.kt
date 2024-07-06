@@ -21,7 +21,7 @@ class ItemsViewModel(application: Application) : AndroidViewModel(application) {
 
     fun loadItems() {
         viewModelScope.launch {
-            _items.postValue(itemsDao.getItemsByReunitedStatus(false))
+            _items.postValue(itemsDao.getAllItems()) // Fetch all items
         }
     }
 
