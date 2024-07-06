@@ -41,10 +41,7 @@ class ItemsAdapter(
             }
 
             itemView.setOnClickListener {
-                val intent = Intent(context, ItemDetailActivity::class.java).apply {
-                    putExtra("ITEM_ID", item.itemId)
-                }
-                context.startActivity(intent)
+                itemClickListener(item)
             }
         }
     }

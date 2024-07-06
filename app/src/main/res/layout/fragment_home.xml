@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="8dp">
 
     <!-- Search Bar -->
     <androidx.appcompat.widget.SearchView
@@ -17,14 +18,44 @@
         android:padding="8dp"
         android:queryHint="Search..." />
 
-    <!-- RecyclerView to display items -->
+    <!-- Lost Items Header -->
+    <TextView
+        android:id="@+id/lostItemsHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lost Items"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:padding="8dp" />
+
+    <!-- RecyclerView for Lost Items -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewItems"
+        android:id="@+id/recyclerViewLostItems"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:padding="8dp"
         android:clipToPadding="false"
-        android:scrollbars="vertical"/>
+        android:scrollbars="vertical" />
+
+    <!-- Found Items Header -->
+    <TextView
+        android:id="@+id/foundItemsHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Found Items"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:padding="8dp" />
+
+    <!-- RecyclerView for Found Items -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewFoundItems"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="8dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical" />
 
 </LinearLayout>
